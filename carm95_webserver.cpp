@@ -246,11 +246,13 @@ void webserver_register_variable(const char *name, function_hook_state_t *state,
     hook_elements.push_back({name, state, file, line});
 }
 
+}
+
 #else
 
 int start_hook_webserver(int port) {
-    printf("Hook webserver startup skipped => server not built-in\n"):
-        return 1;
+    printf("Hook webserver startup skipped => server not built-in\n");
+    return 1;
 }
 
 void stop_hook_webserver() {
@@ -261,4 +263,3 @@ void webserver_register_variable(const char *name, function_hook_state_t *state,
 
 #endif
 
-}

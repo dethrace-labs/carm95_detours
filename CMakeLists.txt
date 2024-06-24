@@ -1,12 +1,5 @@
-
 cmake_minimum_required(VERSION 3.15)
 project(carm95hooks C CXX)
-
-if(EXISTS "${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
-    include("${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
-    conan_basic_setup(TARGETS NO_OUTPUT_DIRS)
-    list(APPEND CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR}")
-endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
@@ -72,7 +65,7 @@ target_include_directories(carm95hooks PRIVATE
    ${CMAKE_CURRENT_SOURCE_DIR}/include/brender
 )
 target_link_libraries(carm95hooks PRIVATE
-    Detours::Detours
+    detours::detours
 )
 set_target_properties(carm95hooks
     PROPERTIES
@@ -102,7 +95,7 @@ target_compile_definitions(carm95_injector PRIVATE
 )
 target_link_libraries(carm95_injector PRIVATE
     bcrypt
-    Detours::Detours
+    detours::detours
 )
 set_target_properties(carm95_injector
     PROPERTIES
@@ -120,3 +113,16 @@ if(CARM95_LOCATION)
         COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:carm95_injector>" "${CARM95_LOCATION}/$<TARGET_FILE_NAME:carm95_injector>"
     )
 endif()
+
+install(TARGETS carm95_injector
+    RUNTIME DESTINATION "."
+)
+install(TARGETS carm95hooks
+    RUNTIME DESTINATION "plugins"
+)
+install(FILES "hookclient.py"
+    DESTINATION "."
+)
+
+set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}")
+include(CPack)

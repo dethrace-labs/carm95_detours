@@ -2,6 +2,8 @@
 
 #include <windows.h>
 #include <detours.h>
+
+#include <algorithm>
 #include <filesystem>
 #include <cstdio>
 #include <string>
